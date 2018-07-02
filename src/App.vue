@@ -5,7 +5,7 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
-    <div>test</div>
+    <div>test1</div>
   </div>
 </template>
 
