@@ -1,10 +1,7 @@
 <template>
     <div>
-        <p> is login view</p>
-        <alert>test</alert>
-        <alert dismissible="true">tangxuke is a </alert>
+        <p>this is login view</p>
     </div>
 </template>
-<script src="./Login.js">
-</script>
+
 

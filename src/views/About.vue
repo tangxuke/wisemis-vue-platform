@@ -1,5 +1,8 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <my-page>this is about page</my-page>
   </div>
 </template>
+
+<script src="./js/About.js">
+</script>
