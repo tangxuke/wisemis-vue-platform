@@ -1,18 +1,11 @@
 <template>
   <div id="app">
-    <my-header></my-header>
-    <div class="alert alert-primary" role="alert">
-      A simple primary alert—check it out!
-    </div>
-    <span><router-link to="/about">About</router-link></span>  
-    <span><router-link to="/login">Login</router-link></span>
-     <span><router-link to="/">Home</router-link></span>
     <router-view/>
   </div>
 </template>
 
 <script>
-import MyHeader from './components/common/MyHeader'
+import MyHeader from './components/common/TheHeader'
 export default {
   components:{
     'my-header':MyHeader

@@ -1,15 +1,13 @@
 <template>
     <div>
-        <my-header/>
-        <div style="background-color:red">
+        <my-header/>       
             <slot/>
-        </div>
         <my-footer/>
     </div>
 </template>
 <script>
-import MyHeader from './MyHeader'
-import MyFooter from './MyFooter'
+import MyHeader from './TheHeader'
+import MyFooter from './TheFooter'
 export default {
     components:{
         'my-header':MyHeader,
