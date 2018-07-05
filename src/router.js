@@ -3,10 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Login from './views/Login'
-import User from './views/users/User'
-import ChangePassword from './views/users/ChangePassword'
-
-import UserRoutes from './routes/users-routes'
+import PageDesigner from './designers/page-designer.vue'
 
 Vue.use(Router)
 
@@ -28,10 +25,9 @@ export default new Router({
       component:Login
     },
     {
-      path:'/user',
-      name:'user',
-      component:User,
-      children:UserRoutes
+      path:'/page-designer',
+      name:'page-designer',
+      component:PageDesigner
     }
   ]
 })

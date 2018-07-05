@@ -1,21 +1,15 @@
 <template>
   <div id="app">
+    <router-link to="/">Home</router-link>
+    <router-link to="/login">Login</router-link>
+    <router-link to="/about">About</router-link>
+    <router-link to="/page-designer">PageDesigner</router-link>
     <router-view/>
   </div>
 </template>
 
-<script>
-import MyHeader from './components/common/TheHeader'
-export default {
-  components:{
-    'my-header':MyHeader
-  }
-}
-</script>
-
-
 <style>
-span{
+a{
   margin-right: 10px
 }
 #app {
