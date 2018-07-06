@@ -3,7 +3,8 @@
  */
 const app={
     state:{
-        shrink:false    /*侧边栏收缩状态*/
+        shrink:false,       /*侧边栏收缩状态*/
+        menuTheme:'dark'    /*主题：默认深色*/
     },
     mutations:{
 

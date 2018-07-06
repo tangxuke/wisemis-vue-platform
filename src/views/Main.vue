@@ -3,22 +3,24 @@
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
-        <!--div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
+        <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
             <scroll-bar ref="scrollBar">
-                <shrinkable-menu 
+                <!--shrinkable-menu 
                     :shrink="shrink"
                     @on-change="handleSubmenuChange"
                     :theme="menuTheme" 
                     :before-push="beforePush"
                     :open-names="openedSubmenuArr"
-                    :menu-list="menuList">
+                    :menu-list="menuList"
+                    >
                     <div slot="top" class="logo-con">
                         <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
                         <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
                     </div>
-                </shrinkable-menu>
+                </shrinkable-menu-->
+                <P v-for="i in 200" :key="'item'+i" style="color:#fff">{{i}}</P>
             </scroll-bar>
-        </div-->
+        </div>
         <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
             <div class="main-header">
                 <div class="navicon-con">
@@ -26,12 +28,13 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-                <!--div class="header-middle-con">
+                <div class="header-middle-con">
                     <div class="main-breadcrumb">
-                        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
+                        <!--breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav-->
                     </div>
                 </div>
                 <div class="header-avator-con">
+                    <!--
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
                     <message-tip v-model="mesCount"></message-tip>
@@ -52,19 +55,20 @@
                             <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
                         </Row>
                     </div>
-                </div-->
+                    -->
+                </div>
             </div>
-            <!--div class="tags-con">
-                <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
-            </div-->
+            <div class="tags-con">
+                <!--tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened-->
+            </div>
         </div>
-        <!--div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
+        <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
             <div class="single-page">
-                <keep-alive :include="cachePage">
+                <!--keep-alive :include="cachePage">
                     <router-view></router-view>
-                </keep-alive>
+                </keep-alive-->
             </div>
-        </div-->
+        </div>
     </div>
 </template>
 <!--script>
@@ -216,16 +220,31 @@
     };
 </script-->
 <script>
+import scrollBar from '@/components/common/vue-scroller-bars'
 export default {
     data:function(){
         return {
             shrink:false    //侧边栏收缩状态
         }
     },
+    components:{
+        scrollBar
+    },
+    computed:{
+        menuTheme:function() {
+            return this.$store.state.app.menuTheme
+        },
+        menuList:function(){
+            return this.$store.state.app.menuList
+        }
+    },
     methods:{
         toggleClick:function(){
             this.shrink=!this.shrink
-        }
+        },
+        handleSubmenuChange:function(val) {
+                console.log(val)
+        },
     }
 }
 </script>
