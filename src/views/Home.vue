@@ -1,10 +1,4 @@
-<template>
-  <div class="home">
-   <my-page>
-     这是主页{{count}}
-   </my-page>
-  </div>
-</template>
+
 
 <script>
 // @ is an alias to /src

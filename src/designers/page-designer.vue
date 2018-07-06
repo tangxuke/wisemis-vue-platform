@@ -60,12 +60,5 @@ export default {
 
 
 <style>
-div .main{
-    background-color: red;
-    overflow: scroll;
-}
-.card{
-    height: 500px;
-    width: 100%;
-}
+
 </style>
