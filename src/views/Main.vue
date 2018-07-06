@@ -5,7 +5,7 @@
     <div class="main" :class="{'main-hide-text': shrink}">
         <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
             <scroll-bar ref="scrollBar">
-                <!--shrinkable-menu 
+                <shrinkable-menu 
                     :shrink="shrink"
                     @on-change="handleSubmenuChange"
                     :theme="menuTheme" 
@@ -17,8 +17,7 @@
                         <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
                         <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
                     </div>
-                </shrinkable-menu-->
-                <P v-for="i in 200" :key="'item'+i" style="color:#fff">{{i}}</P>
+                </shrinkable-menu>
             </scroll-bar>
         </div>
         <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
