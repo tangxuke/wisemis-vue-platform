@@ -1,18 +1,5 @@
-
-
-<script>
-// @ is an alias to /src
-import MyPage from '@/components/common/ThePage'
-import store from '@/store.js'
-export default {
-  name: 'home',
-  components: {
-    'my-page':MyPage
-  },
-  computed:{
-    count:()=>{
-      return store.state.count
-    }
-  }
-}
-</script>
+<template>
+<div id="home">
+  this is home page
+</div>
+</template>

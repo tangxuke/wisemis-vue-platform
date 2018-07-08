@@ -63,9 +63,9 @@
         </div>
         <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
             <div class="single-page">
-                <!--keep-alive :include="cachePage">
+                <!--keep-alive :include="cachePage"-->
                     <router-view></router-view>
-                </keep-alive-->
+                <!--/keep-alive-->
             </div>
         </div>
     </div>
@@ -220,20 +220,25 @@
 </script-->
 <script>
 import scrollBar from '@/components/common/vue-scroller-bars'
+import shrinkableMenu from '@/components/common/shrinkable-menu/shrinkable-menu';
+
 export default {
     data:function(){
         return {
-            shrink:false    //侧边栏收缩状态
+            shrink:false,    //侧边栏收缩状态
+            openedSubmenuArr: this.$store.state.app.openedSubmenuArr
         }
     },
     components:{
-        scrollBar
+        scrollBar,
+        shrinkableMenu
     },
     computed:{
         menuTheme:function() {
             return this.$store.state.app.menuTheme
         },
         menuList:function(){
+            console.log(this.$store.state.app.menuList)
             return this.$store.state.app.menuList
         }
     },
@@ -244,6 +249,24 @@ export default {
         handleSubmenuChange:function(val) {
                 console.log(val)
         },
+        beforePush (name) {
+                // if (name === 'accesstest_index') {
+                //     return false;
+                // } else {
+                //     return true;
+                // }
+                return true
+        },
+        scrollBarResize(){
+            this.$refs.scrollBar.resize()
+        }
+    },
+    watch:{
+        openedSubmenuArr:function(){
+            setTimeout(function(){
+                this.scrollBarResize()
+            },300)
+        }
     }
 }
 </script>

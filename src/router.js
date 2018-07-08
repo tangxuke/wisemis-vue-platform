@@ -12,7 +12,19 @@ export default new Router({
     {
       path: '/',
       name: 'main',
-      component: Main
+      component: Main,
+      redirect:'/home',
+      children:[
+        {
+          path:'home',
+          component:()=>import('@/views/Home')
+        },
+        {
+          path:'about',
+          component:()=>import('@/views/About')
+
+        }
+      ]
     },
     {
       path: '/about',

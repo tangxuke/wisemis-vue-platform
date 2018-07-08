@@ -9,6 +9,7 @@
   "dependencies": {
     "ajv": "^6.5.2",
     "ajv-keywords": "^3.2.0",
+    "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "element-ui": "^2.4.2",
     "iview": "^2.14.3",
