@@ -17,6 +17,8 @@ app.set('view engine', 'jade');
 //允许跨域访问中间件
 app.use(function(req,res,next){
   res.setHeader('Access-Control-Allow-Origin','*');
+  res.set('Access-Control-Allow-Methods','GET,POST,OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type');
   next();
 });
 

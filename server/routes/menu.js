@@ -21,4 +21,17 @@ router.get('/',function(req,res,next){
     })
 })
 
+//添加菜单
+router.post('/add',(req,res,next)=>{
+    console.log(req.body)
+    var menu=new Menu(req.body)
+    menu.save().then(()=>{
+        response.success=true
+    }).catch((err)=>{
+        response.message=err.message
+    }).then(()=>{
+        res.json(response)
+    })
+})
+
 module.exports=router
