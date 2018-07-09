@@ -1,5 +1,11 @@
-import mongoose from 'mongoose'
-mongoose.connect('mongodb://localhost/demo')
-.then()
+var mongoose=require('mongoose') 
 
-mongoose.Model()
+var menuSchama=mongoose.Schema({
+    'name':String,
+    'icon':String,
+    'title':String,
+    'path':String,
+    'children':Array
+})
+
+module.exports=mongoose.model('Menu',menuSchama,'menus')

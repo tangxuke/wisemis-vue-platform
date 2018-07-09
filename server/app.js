@@ -20,6 +20,19 @@ app.use(function(req,res,next){
   next();
 });
 
+//连接MongoDB数据库
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/demo');
+mongoose.connection.on("connected", function () {
+  console.log("MongoDB connected success.")
+});
+mongoose.connection.on("error", function () {
+  console.log("MongoDB connected fail.")
+});
+mongoose.connection.on("disconnected", function () {
+  console.log("MongoDB connected disconnected.")
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
