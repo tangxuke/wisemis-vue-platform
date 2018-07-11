@@ -52,6 +52,6 @@
     display: inline-block;
     position: absolute;
     
-    right: 0;
+    right: -10px;
 }
 </style>
