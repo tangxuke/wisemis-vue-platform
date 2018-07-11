@@ -14,7 +14,10 @@ const app={
         updateMenuList:function(state){
             axios.get('http://localhost:3000/menu')
                 .then((res)=>{
-                    state.menuList=res.data
+                    if(res.data.success){
+                        state.menuList=res.data.result
+                        alert(res.data.result.length)
+                    }
                 })
         }
     },

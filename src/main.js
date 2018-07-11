@@ -14,7 +14,7 @@ import 'iview/dist/styles/iview.css'
 Vue.use(iView)
 
 //bootstrap
-//import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.config.productionTip = false
 

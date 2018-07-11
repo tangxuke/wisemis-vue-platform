@@ -5,20 +5,10 @@
     <div class="main" :class="{'main-hide-text': shrink}">
         <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
             <scroll-bar ref="scrollBar">
-                <shrinkable-menu 
-                    :shrink="shrink"
-                    @on-change="handleSubmenuChange"
-                    :theme="menuTheme" 
-                    :before-push="beforePush"
-                    :open-names="openedSubmenuArr"
-                    :menu-list="menuList"
-                    >
-                    <div slot="top" class="logo-con">
-                        <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
-                        <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
-                    </div>
-                </shrinkable-menu>
+                <the-sidebar v-if="!shrink"></the-sidebar>
+                <the-sidebar-iconic v-if="shrink"></the-sidebar-iconic>
             </scroll-bar>
+
         </div>
         <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
             <div class="main-header">
@@ -29,6 +19,8 @@
                 </div>
                 <div class="header-middle-con">
                     <div class="main-breadcrumb">
+                        <router-link to="/new-menu" class="btn btn-secondary">添加菜单</router-link>
+                        <Button type="primary" @click="updateMenuList">更新菜单</Button>
                         <!--breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav-->
                     </div>
                 </div>
@@ -220,7 +212,8 @@
 </script-->
 <script>
 import scrollBar from '@/components/common/vue-scroller-bars'
-import shrinkableMenu from '@/components/common/shrinkable-menu/shrinkable-menu';
+import TheSideBar from '@/components/common/TheSideBar'
+import TheSideBarIconic from '@/components/common/TheSideBar-Iconic'
 
 export default {
     data:function(){
@@ -231,7 +224,8 @@ export default {
     },
     components:{
         scrollBar,
-        shrinkableMenu
+        'the-sidebar':TheSideBar,
+        'the-sidebar-iconic':TheSideBarIconic
     },
     computed:{
         menuTheme:function() {
@@ -259,6 +253,9 @@ export default {
         },
         scrollBarResize(){
             this.$refs.scrollBar.resize()
+        },
+        updateMenuList(){
+            this.$store.commit('updateMenuList')
         }
     },
     watch:{

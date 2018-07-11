@@ -19,6 +19,13 @@
     </Form>
 </template>
 
+<style>
+Form{
+    width: 300px;
+}
+</style>
+
+
 <script>
 import axios from 'axios'
 
