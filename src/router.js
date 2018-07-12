@@ -26,6 +26,10 @@ export default new Router({
         {
           path:'new-menu',
           component:()=>import('@/views/NewMenu')
+        },
+        {
+          path:'menu-list',
+          component:()=>import('@/views/Menu')
         }
       ]
     },

@@ -16,7 +16,6 @@ const app={
                 .then((res)=>{
                     if(res.data.success){
                         state.menuList=res.data.result
-                        alert(res.data.result.length)
                     }
                 })
         }

@@ -1,5 +1,6 @@
 <template>
-    <Form>
+    <div class="container center">
+        <Form>
         <FormItem label="菜单名：">
             <Input v-model="name" placeholder="菜单名"/>
         </FormItem>
@@ -16,14 +17,16 @@
             <Button type="primary" @click="handleSubmit">Submit</Button>
             <Button type="ghost" style="margin-left: 8px">Cancel</Button>
         </FormItem>
-    </Form>
+        </Form>
+    </div>
 </template>
 
 <style>
-Form{
-    width: 300px;
+.center{
+    padding: 0 20%;
 }
 </style>
+
 
 
 <script>

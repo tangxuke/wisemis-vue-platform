@@ -3,14 +3,10 @@
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
-        <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
-            <scroll-bar ref="scrollBar">
-                <the-sidebar v-if="!shrink"></the-sidebar>
-                <the-sidebar-iconic v-if="shrink"></the-sidebar-iconic>
-            </scroll-bar>
-
+        <div class="sidebar-menu-con" :style="{width: shrink?'0px':'200px', overflow: shrink ? 'visible' : 'auto'}">
+            <the-sidebar v-if="!shrink"></the-sidebar>
         </div>
-        <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
+        <div class="main-header-con" :style="{paddingLeft: shrink?'0px':'200px'}">
             <div class="main-header">
                 <div class="navicon-con">
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
@@ -53,7 +49,7 @@
                 <!--tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened-->
             </div>
         </div>
-        <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
+        <div class="single-page-con" :style="{left: shrink?'0px':'200px'}">
             <div class="single-page">
                 <!--keep-alive :include="cachePage"-->
                     <router-view></router-view>
@@ -211,9 +207,7 @@
     };
 </script-->
 <script>
-import scrollBar from '@/components/common/vue-scroller-bars'
 import TheSideBar from '@/components/common/TheSideBar'
-import TheSideBarIconic from '@/components/common/TheSideBar-Iconic'
 
 export default {
     data:function(){
@@ -223,9 +217,7 @@ export default {
         }
     },
     components:{
-        scrollBar,
-        'the-sidebar':TheSideBar,
-        'the-sidebar-iconic':TheSideBarIconic
+        'the-sidebar':TheSideBar
     },
     computed:{
         menuTheme:function() {

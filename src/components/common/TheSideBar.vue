@@ -1,57 +1,220 @@
 <template>
-    <Menu active-name="1-2" :open-names="['1']" :theme="'dark'">
-        <Submenu name="1">
-            <template slot="title">
-                <Icon type="ios-analytics"></Icon>
-                Navigation One
-            </template>
-            <MenuGroup title="Item 1">
-                <MenuItem name="1-1">Option 1</MenuItem>
-                <MenuItem name="1-2">Option 2</MenuItem>
-            </MenuGroup>
-            <MenuGroup title="Item 2">
-                <MenuItem name="1-3">Option 3</MenuItem>
-                <MenuItem name="1-4">Option 4</MenuItem>
-            </MenuGroup>
-        </Submenu>
-        <Submenu name="2">
-            <template slot="title">
-                <Icon type="ios-filing"></Icon>
-                Navigation Two
-            </template>
-            <MenuItem name="2-1">Option 5</MenuItem>
-            <MenuItem name="2-2">Option 6</MenuItem>
-            <Submenu name="3">
-                <template slot="title">Submenu</template>
-                <MenuItem name="3-1">Option 7</MenuItem>
-                <MenuItem name="3-2">Option 8</MenuItem>
-            </Submenu>
-        </Submenu>
-        <Submenu name="4">
-            <template slot="title" style="position: relative;">
-                <Icon type="ios-gear"></Icon>
-                Navigation Three
-                
-                <span class="icon"><Icon type="ios-arrow-down"></Icon></span>
-            </template>
-            <MenuItem name="4-1">Option 9</MenuItem>
-            <MenuItem name="4-2">Option 10</MenuItem>
-            <MenuItem name="4-3">Option 11</MenuItem>
-            <MenuItem name="4-4">Option 12</MenuItem>
-        </Submenu>
-    </Menu>
+<div>
+    <h1>test</h1>
+        <scroll-bar ref="scrollBar">
+            <ul class="menu">
+            <li v-for="(item,index) in items" :key="'item'+index">
+                <div class="menu-title" @click="toggleOpen(index)">
+                    <Icon :type="item.icon" data-menu-title></Icon>
+                    <span data-menu-title>{{item.title}}</span>
+                    <template v-if="checkOpen(index)">
+                        <Icon type="chevron-down" class="menu-right menu-closed"></Icon>
+                    </template>
+                    <template v-else>
+                        <Icon type="chevron-down" class="menu-right"></Icon>
+                    </template>
+                </div>
+                <template v-if="checkOpen(index)">
+                <ul class="menu-content menu-closed" v-if="item.children">
+                    <li class="menu-item" v-for="(child,i) in item.children" :key="'child'+index+i">
+                        {{child.title}}
+                    </li>
+                </ul>
+                </template>
+                <template v-else>
+                <ul class="menu-content" v-if="item.children">
+                    <li class="menu-item" v-for="(child,i) in item.children" :key="'child'+index+i">
+                        {{child.title}}
+                    </li>
+                </ul>
+                </template>
+            </li>
+            </ul>
+        </scroll-bar>
+</div>
 </template>
-<script>
-    export default {
-        
-    }
-</script>
 
 <style>
-.icon{
-    display: inline-block;
-    position: absolute;
-    
-    right: -10px;
+.menu {
+  position: relative;
+  background-color: #f0f0f0;
+}
+.menu .menu-title {
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.menu-title .menu-closed {
+  transform: rotate(180deg);
+  transition: all 0.2s;
+}
+
+[data-menu-title] {
+  margin: 5px;
+}
+.menu .menu-content {
+  position: relative;
+  background-color: #fff;
+}
+.menu .menu-content .menu-item {
+  position: relative;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background-color: cornflowerblue;
+  color: cyan;
+}
+.menu-closed {
+  display: none;
+}
+.menu-right {
+  position: absolute;
+  right: 10px;
+  padding: 5px;
 }
 </style>
+
+<script>
+import scrollBar from "@/components/common/vue-scroller-bars"
+
+export default {
+  data: function() {
+    return {
+      opened: [],
+      items: [
+        {
+          title: "数据概览",
+          icon: "grid",
+          children: [
+            {
+              title: "应用概览"
+            },
+            {
+              title: "用户趋势"
+            },
+            {
+              title: "渠道分析"
+            },
+            {
+              title: "留存分析"
+            },
+            {
+              title: "用户质量评估"
+            }
+          ]
+        },
+        {
+          title: "数据概览",
+          icon: "grid",
+          children: [
+            {
+              title: "应用概览"
+            },
+            {
+              title: "用户趋势"
+            },
+            {
+              title: "渠道分析"
+            },
+            {
+              title: "留存分析"
+            },
+            {
+              title: "用户质量评估"
+            }
+          ]
+        },
+        {
+          title: "数据概览",
+          icon: "grid",
+          children: [
+            {
+              title: "应用概览"
+            },
+            {
+              title: "用户趋势"
+            },
+            {
+              title: "渠道分析"
+            },
+            {
+              title: "留存分析"
+            },
+            {
+              title: "用户质量评估"
+            }
+          ]
+        },
+        {
+          title: "数据概览",
+          icon: "grid",
+          children: [
+            {
+              title: "应用概览"
+            },
+            {
+              title: "用户趋势"
+            },
+            {
+              title: "渠道分析"
+            },
+            {
+              title: "留存分析"
+            },
+            {
+              title: "用户质量评估"
+            }
+          ]
+        },
+        {
+          title: "数据概览",
+          icon: "grid",
+          children: [
+            {
+              title: "应用概览"
+            },
+            {
+              title: "用户趋势"
+            },
+            {
+              title: "渠道分析"
+            },
+            {
+              title: "留存分析"
+            },
+            {
+              title: "用户质量评估"
+            }
+          ]
+        }
+      ]
+    };
+  },
+  components: {
+    "scroll-bar": scrollBar
+  },
+  methods: {
+    checkOpen:function(index) {
+      let i = this.opened.findIndex(value => {
+        if (index == value) return true;
+        else return false;
+      });
+      if (checkOpen > -1) return true;
+      else return false;
+    },
+    toggleClose: function(index) {
+      let opened = this.checkOpen(index);
+      if (opened) {
+        this.opened.splice(i, 1);
+      } else {
+        this.opened.push(i);
+      }
+      setTimeout(function() {
+        this.$refs.scrollBar.resize();
+      }, 300);
+    }
+  }
+}
+</script>
