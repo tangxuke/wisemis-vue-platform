@@ -30,6 +30,10 @@ export default new Router({
         {
           path:'menu-list',
           component:()=>import('@/views/Menu')
+        },
+        {
+          path:'404',
+          component:()=>import('@/views/NotFound')
         }
       ]
     },

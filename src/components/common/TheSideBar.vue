@@ -2,15 +2,22 @@
 <div>       
           <ul class="menu">
             <li v-for="(item,index) in items" :key="'item-'+index">
-                <div class="menu-title" :class="{'menu-title-active':isopen(index)}" @click="toggleOpen(index)">
-                    <Icon :type="item.icon" data-menu-title></Icon>
-                    <span data-menu-title>{{item.title}}</span>
-                    <Icon type="chevron-down" class="menu-right" :class="{'menu-closed':isopen(index)}"></Icon>
+                <div class="menu-title" :class="{'menu-title-active':opened==index}" @click="toggleOpen(index,item)">
+                    <Icon :type="item.icon" class="menu-title-icon"></Icon>
+                    <span class="menu-title-text">{{item.title}}</span>
+                    <Icon type="chevron-down" class="menu-right" :class="{'menu-closed':isopen(index)}" v-if="item.children.length"></Icon>
                 </div>
                 <template>
                 <ul class="menu-content"  :class="{'menu-closed':!isopen(index)}" v-if="item.children">
-                    <li class="menu-item" :class="{'menu-item-active':selected=='child-'+index+'-'+i}" v-for="(child,i) in item.children" :key="'child-'+index+'-'+i" @click="menuSelect('child-'+index+'-'+i)">
-                        {{child.title}}
+                    <li class="menu-item" 
+                        :class="{'menu-item-active':selected=='child-'+index+'-'+i}" 
+                        v-for="(child,i) in item.children" 
+                        :key="'child-'+index+'-'+i" 
+                        @click="menuSelect('child-'+index+'-'+i,child)">
+                          <Icon :type="child.icon" class="menu-item-icon" v-if="child.icon"></Icon>
+                          <span class="menu-item-text">
+                            {{child.title}}
+                          </span>
                     </li>
                 </ul>
                 </template>
@@ -50,12 +57,12 @@
 }
 .menu .menu-content {
   position: relative;
-  background-color: #fff;
+  background-color: #feffe0;
 }
 .menu .menu-content .menu-item {
   position: relative;
   cursor: pointer;
-  line-height: 30px;
+  /*line-height: 30px;*/
   padding: 5px;
 }
 
@@ -82,6 +89,28 @@
   left: +2px;
 }
 
+.menu-title-icon{
+  position: absolute;
+  padding: 5px;
+  text-align: center;
+}
+
+.menu-title-text{
+  position: relative;
+  left: 30px;
+}
+
+.menu-item-icon{
+  position: absolute;
+  padding: 5px;
+  text-align: center;
+}
+
+.menu-item-text{
+  position: relative;
+  left: 25px;
+}
+
 .menu-closed {
   display: none;
 }
@@ -96,139 +125,30 @@
 export default {
   data: function() {
     return {
-      opened: [],
+      opened: 0,
       selected:'',
-      items: [
-        {
-          title: "数据概览",
-          icon: "grid",
-          children: [
-            {
-              title: "应用概览"
-            },
-            {
-              title: "用户趋势"
-            },
-            {
-              title: "渠道分析"
-            },
-            {
-              title: "留存分析"
-            },
-            {
-              title: "用户质量评估"
-            }
-          ]
-        },
-        {
-          title: "数据概览",
-          icon: "grid",
-          children: [
-            {
-              title: "应用概览"
-            },
-            {
-              title: "用户趋势"
-            },
-            {
-              title: "渠道分析"
-            },
-            {
-              title: "留存分析"
-            },
-            {
-              title: "用户质量评估"
-            }
-          ]
-        },
-        {
-          title: "数据概览",
-          icon: "grid",
-          children: [
-            {
-              title: "应用概览"
-            },
-            {
-              title: "用户趋势"
-            },
-            {
-              title: "渠道分析"
-            },
-            {
-              title: "留存分析"
-            },
-            {
-              title: "用户质量评估"
-            }
-          ]
-        },
-        {
-          title: "数据概览",
-          icon: "grid",
-          children: [
-            {
-              title: "应用概览"
-            },
-            {
-              title: "用户趋势"
-            },
-            {
-              title: "渠道分析"
-            },
-            {
-              title: "留存分析"
-            },
-            {
-              title: "用户质量评估"
-            }
-          ]
-        },
-        {
-          title: "数据概览",
-          icon: "grid",
-          children: [
-            {
-              title: "应用概览"
-            },
-            {
-              title: "用户趋势"
-            },
-            {
-              title: "渠道分析"
-            },
-            {
-              title: "留存分析"
-            },
-            {
-              title: "用户质量评估"
-            }
-          ]
-        }
-      ]
     };
   },
+  computed:{
+    items:function(){
+      return this.$store.state.app.menuList;
+    }
+  },
   methods: {
-    menuSelect:function(key){
+    menuSelect:function(key,item){
       this.selected=key;
+      if(item.path)
+        this.$router.push(item.path);
+      else
+        this.$router.push('404');
     },
     isopen: function(index) {
-      if (this.checkOpen(index) > -1) return true;
-      else return false;
+      return this.opened==index;
     },
-    checkOpen: function(index) {
-      let i = this.opened.findIndex(value => {
-        if (index == value) return true;
-        else return false;
-      });
-      return i;
-    },
-    toggleOpen: function(index) {
-      let i = this.checkOpen(index);
-      if (i > -1) {
-        this.opened.splice(i, 1);
-      } else {
-        this.opened.push(index);
-      }
+    toggleOpen: function(index,item) {
+      this.opened=index;
+      if(item.path)
+        this.$router.push(item.path);
     }
   }
 };
