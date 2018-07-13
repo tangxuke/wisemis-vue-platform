@@ -57,7 +57,7 @@
 }
 .menu .menu-content {
   position: relative;
-  background-color: #feffe0;
+  background-color: #fff;
 }
 .menu .menu-content .menu-item {
   position: relative;
@@ -146,9 +146,12 @@ export default {
       return this.opened==index;
     },
     toggleOpen: function(index,item) {
-      this.opened=index;
-      if(item.path)
-        this.$router.push(item.path);
+      if(this.opened==index)
+        this.opened='$$$$$$$$$$$$';
+      else
+        this.opened=index;
+      /*if(item.path)
+        this.$router.push(item.path);*/
     }
   }
 };

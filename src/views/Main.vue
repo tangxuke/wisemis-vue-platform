@@ -17,8 +17,6 @@
                 </div>
                 <div class="header-middle-con">
                     <div class="main-breadcrumb">
-                        <router-link to="/new-menu" class="btn btn-secondary">添加菜单</router-link>
-                        <Button type="primary" @click="updateMenuList">更新菜单</Button>
                         <!--breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav-->
                     </div>
                 </div>

@@ -1,6 +1,9 @@
 <template>
     <div class="container center">
         <Form>
+        <Select v-model="parent" placeholder="请选择父层菜单：">
+            <Option v-for="item in menuList" :value="item.name" :key="item.name">{{ item.title }}</Option>
+        </Select>
         <FormItem label="菜单名：">
             <Input v-model="name" placeholder="菜单名"/>
         </FormItem>
@@ -22,55 +25,64 @@
 </template>
 
 <style>
-.center{
-    padding: 0 20%;
+.center {
+  padding: 0 20%;
 }
 </style>
 
 
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
-    data:()=>{
-        return {
-                name:'',
-                title:'',
-                path:'',
-                icon:''
-        }
-    },
-    methods:{
-        handleSubmit:function(){
-            var body={
-                name:this.name,
-                title:this.title,
-                path:this.path,
-                icon:this.icon,
-                children:[]
-            }
-            axios({
-                method: 'post',
-                url: 'http://localhost:3000/menu/add',
-                data: body
-            }).then((res)=>{
-                    if(res.data.success)
-                        alert('添加菜单成功！')
-                    else
-                        alert('添加菜单失败！')
-                })
-                .catch((err)=>{
-                    alert('发生异常：'+res.data.message)
-                })
-            //this.clear()
-        },
-        clear:function(){
-            this.name=''
-            this.title=''
-            this.path=''
-            this.icon=''
-        }
+  data: () => {
+    return {
+      name: "",
+      title: "",
+      path: "",
+      icon: "",
+      parent:""
     }
-}
+  },
+  computed:{
+      menuList:function(){
+          return this.$store.state.app.menuList;
+      }
+  },
+  methods: {
+    handleSubmit: function() {
+      var body = {
+        name: this.name,
+        title: this.title,
+        path: this.path,
+        icon: this.icon,
+        parent:this.parent
+      };
+      axios({
+        method: "post",
+        url: "http://localhost:3000/menu/add",
+        data: body
+      })
+        .then(res => {
+          if (res.data.success){
+            alert("添加菜单成功！");
+            this.clear();
+            this.$store.commit('updateMenuList');
+          } 
+          else alert("添加菜单失败！");
+        })
+        .catch(err => {
+          alert("发生异常：" + res.data.message);
+        });
+      //this.clear()
+    },
+    clear: function() {
+      this.name = "";
+      this.title = "";
+      this.path = "";
+      this.icon = "";
+    }
+  }
+};
 </script>
