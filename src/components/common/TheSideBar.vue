@@ -29,12 +29,14 @@
 <style>
 .menu {
   position: relative;
-  background-color: #f0f0f0;
+  background-color: #996868;
+  color:#fff;
 }
 .menu .menu-title {
   position: relative;
   cursor: pointer;
   padding: 10px;
+  
 }
 
 .menu .menu-title:hover{
@@ -58,17 +60,19 @@
 .menu .menu-content {
   position: relative;
   background-color: #fff;
+  color:chartreuse;
 }
 .menu .menu-content .menu-item {
   position: relative;
   cursor: pointer;
   /*line-height: 30px;*/
   padding: 5px;
+  font-size: 80%;
 }
 
 .menu .menu-content .menu-item-active{
-  background-color: rgb(156, 143, 143);
-  color: rgb(228, 224, 240);
+  background-color: rgb(240, 240, 240);
+  color: rgb(100, 100, 100);
   border: 1px solid #f0f0f0;
   border-radius: 4px;
 }
@@ -81,7 +85,7 @@
 }
 
 .menu-item:active{
-  background-color: gray;
+  background-color: rgb(192, 192, 192);
   color: #333;
   border: 1px solid #f0f0f0;
   border-radius: 4px;

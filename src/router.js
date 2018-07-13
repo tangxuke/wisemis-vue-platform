@@ -29,8 +29,16 @@ export default new Router({
         },
         {
           path:'menu-list',
-          component:()=>import('@/views/Menu')
+          component:()=>import('@/views/Menu'),
+          children:[
+            {
+              path:'children/:parent',
+              component:()=>import('@/views/Menu'),
+              
+            }
+          ]
         },
+        ,
         {
           path:'404',
           component:()=>import('@/views/NotFound')
