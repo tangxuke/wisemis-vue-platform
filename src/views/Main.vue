@@ -4,7 +4,9 @@
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
         <div class="sidebar-menu-con" :style="{width: shrink?'0px':'200px', overflow: shrink ? 'visible' : 'auto'}">
-            <the-sidebar v-if="!shrink"></the-sidebar>
+            <scroll-bar ref="scrollBar">
+                <the-sidebar v-show="!shrink"></the-sidebar>
+            </scroll-bar>
         </div>
         <div class="main-header-con" :style="{paddingLeft: shrink?'0px':'200px'}">
             <div class="main-header">
@@ -207,6 +209,7 @@
     };
 </script-->
 <script>
+import scrollBar from "@/components/common/vue-scroller-bars"
 import TheSideBar from '@/components/common/TheSideBar'
 
 export default {
@@ -217,7 +220,8 @@ export default {
         }
     },
     components:{
-        'the-sidebar':TheSideBar
+        'the-sidebar':TheSideBar,
+        "scroll-bar": scrollBar
     },
     computed:{
         menuTheme:function() {

@@ -1,36 +1,21 @@
 <template>
-<div>
-    <h1>test</h1>
-        <scroll-bar ref="scrollBar">
-            <ul class="menu">
-            <li v-for="(item,index) in items" :key="'item'+index">
-                <div class="menu-title" @click="toggleOpen(index)">
+<div>       
+          <ul class="menu">
+            <li v-for="(item,index) in items" :key="'item-'+index">
+                <div class="menu-title" :class="{'menu-title-active':isopen(index)}" @click="toggleOpen(index)">
                     <Icon :type="item.icon" data-menu-title></Icon>
                     <span data-menu-title>{{item.title}}</span>
-                    <template v-if="checkOpen(index)">
-                        <Icon type="chevron-down" class="menu-right menu-closed"></Icon>
-                    </template>
-                    <template v-else>
-                        <Icon type="chevron-down" class="menu-right"></Icon>
-                    </template>
+                    <Icon type="chevron-down" class="menu-right" :class="{'menu-closed':isopen(index)}"></Icon>
                 </div>
-                <template v-if="checkOpen(index)">
-                <ul class="menu-content menu-closed" v-if="item.children">
-                    <li class="menu-item" v-for="(child,i) in item.children" :key="'child'+index+i">
-                        {{child.title}}
-                    </li>
-                </ul>
-                </template>
-                <template v-else>
-                <ul class="menu-content" v-if="item.children">
-                    <li class="menu-item" v-for="(child,i) in item.children" :key="'child'+index+i">
+                <template>
+                <ul class="menu-content"  :class="{'menu-closed':!isopen(index)}" v-if="item.children">
+                    <li class="menu-item" :class="{'menu-item-active':selected=='child-'+index+'-'+i}" v-for="(child,i) in item.children" :key="'child-'+index+'-'+i" @click="menuSelect('child-'+index+'-'+i)">
                         {{child.title}}
                     </li>
                 </ul>
                 </template>
             </li>
-            </ul>
-        </scroll-bar>
+          </ul>
 </div>
 </template>
 
@@ -43,6 +28,16 @@
   position: relative;
   cursor: pointer;
   padding: 10px;
+}
+
+.menu .menu-title:hover{
+  background-color: cadetblue;
+  color: #ddd;
+}
+
+.menu .menu-title-active{
+  background-color: rgb(103, 175, 243);
+  color: #fff;
 }
 
 .menu-title .menu-closed {
@@ -60,12 +55,33 @@
 .menu .menu-content .menu-item {
   position: relative;
   cursor: pointer;
+  line-height: 30px;
+  padding: 5px;
+}
+
+.menu .menu-content .menu-item-active{
+  background-color: rgb(156, 143, 143);
+  color: rgb(228, 224, 240);
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
 }
 
 .menu-item:hover {
-  background-color: cornflowerblue;
-  color: cyan;
+  background-color: rgb(222, 226, 233);
+  color: rgb(111, 114, 128);
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
 }
+
+.menu-item:active{
+  background-color: gray;
+  color: #333;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  top: +2px;
+  left: +2px;
+}
+
 .menu-closed {
   display: none;
 }
@@ -77,12 +93,11 @@
 </style>
 
 <script>
-import scrollBar from "@/components/common/vue-scroller-bars"
-
 export default {
   data: function() {
     return {
       opened: [],
+      selected:'',
       items: [
         {
           title: "数据概览",
@@ -192,29 +207,29 @@ export default {
       ]
     };
   },
-  components: {
-    "scroll-bar": scrollBar
-  },
   methods: {
-    checkOpen:function(index) {
+    menuSelect:function(key){
+      this.selected=key;
+    },
+    isopen: function(index) {
+      if (this.checkOpen(index) > -1) return true;
+      else return false;
+    },
+    checkOpen: function(index) {
       let i = this.opened.findIndex(value => {
         if (index == value) return true;
         else return false;
       });
-      if (checkOpen > -1) return true;
-      else return false;
+      return i;
     },
-    toggleClose: function(index) {
-      let opened = this.checkOpen(index);
-      if (opened) {
+    toggleOpen: function(index) {
+      let i = this.checkOpen(index);
+      if (i > -1) {
         this.opened.splice(i, 1);
       } else {
-        this.opened.push(i);
+        this.opened.push(index);
       }
-      setTimeout(function() {
-        this.$refs.scrollBar.resize();
-      }, 300);
     }
   }
-}
+};
 </script>
