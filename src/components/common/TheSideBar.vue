@@ -2,7 +2,7 @@
 <div>       
           <ul class="menu">
             <li v-for="(item,index) in items" :key="'item-'+index">
-                <div class="menu-title" :class="{'menu-title-active':opened==index}" @click="toggleOpen(index,item)">
+                <div class="menu-title" @click="toggleOpen(index,item)">
                     <Icon :type="item.icon" class="menu-title-icon"></Icon>
                     <span class="menu-title-text">{{item.title}}</span>
                     <Icon type="chevron-down" class="menu-right" :class="{'menu-closed':isopen(index)}" v-if="item.children.length"></Icon>
@@ -44,11 +44,6 @@
   color: #ddd;
 }
 
-.menu .menu-title-active{
-  background-color: rgb(103, 175, 243);
-  color: #fff;
-}
-
 .menu-title .menu-closed {
   transform: rotate(180deg);
   transition: all 0.2s;
@@ -60,7 +55,7 @@
 .menu .menu-content {
   position: relative;
   background-color: #fff;
-  color:chartreuse;
+  color:darkblue;
 }
 .menu .menu-content .menu-item {
   position: relative;

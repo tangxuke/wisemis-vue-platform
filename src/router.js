@@ -33,7 +33,11 @@ export default new Router({
           component:()=>import('@/views/users/Register')
         },
         {
-          path:'404',
+          path:'/users',
+          component:()=>import('@/views/users/UserList')
+        },
+        {
+          path:'*',
           component:()=>import('@/views/NotFound')
         }
       ]
