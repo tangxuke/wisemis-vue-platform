@@ -45,9 +45,9 @@
                     -->
                 </div>
             </div>
-            <div class="tags-con">
-                <!--tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened-->
-            </div>
+            <!--div class="tags-con">
+                <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
+            </div-->
         </div>
         <div class="single-page-con" :style="{left: shrink?'0px':'200px'}">
             <div class="single-page">

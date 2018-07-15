@@ -37,6 +37,10 @@ export default new Router({
           component:()=>import('@/views/users/UserList')
         },
         {
+          path:'/model-new',
+          component:()=>import('@/models/model-new')
+        },
+        {
           path:'*',
           component:()=>import('@/views/NotFound')
         }

@@ -1,22 +1,24 @@
 <template>
     <div id="root">
         <h1>用户列表</h1>
-        <Table width="80%" height="400" border :columns="columns1" closable="false" maskClosable="false" :data="userList"></Table>
+        <Table width="80%" height="400" border :columns="columns1" :data="userList"></Table>
         <Modal v-model="modal1" :title="'修改密码 - '+username" @on-ok="ok" @on-cancel="cancel" ref="modal2">
             <Form>
                 <FormItem label="密码">
-                    <Input type="password" clearable icon="key" v-model="password1" placeholder="密码"/>
+                    <Input type="password" autofocus ref="pass1" clearable icon="key" v-model="password1" placeholder="密码"/>
                 </FormItem>
                 <FormItem label="确认密码">
                     <Input type="password" clearable icon="key" v-model="password2" placeholder="确认密码"/>
                 </FormItem>
-            </Form>
+           </Form>
             <div slot="footer">
-                <Button type="primary" @click="test">修改密码</Button>
-            </div>
+                <Button type="primary" @click="ok">修改密码</Button>
+            </div> 
+            
         </Modal>
     </div>
 </template>
+
 <script>
 import axios from 'axios'
 
@@ -75,14 +77,25 @@ export default {
         }
     },
     methods:{
-        test:function(){
-            //this.$refs.modal2.close();
-        },
         ok:function(){
-            
+            //this.$refs.modal2.close();
+            if(!this.password1 || !this.password2 || this.password1!==this.password2){
+                this.$Modal.warning({content:'密码不能为空，或者输入不符！',title:'系统提示',onOk:this.clear});
+                
+                return;
+            }
+            //修改密码
+            //关闭
+            this.clear();
+            this.$refs.modal2.close();
+        },
+        clear:function(){
+            this.password1='';
+            this.password2='';
+            this.$refs.pass1.focus();
         },
         cancel:function(){
-
+            this.$refs.modal2.close();
         },
         getUsers:function(){
             axios.get('http://localhost:3000/users')
