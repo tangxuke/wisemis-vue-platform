@@ -1,6 +1,6 @@
 <template>
     <Row>
-        <Col span="12" offset="6">
+        <Col span="12" offset="1">
             <Table height="500" :columns="columns" :data="data">
                 <template slot="header">
                     模型列表
@@ -35,6 +35,7 @@ export default {
                 },
                 {
                     title:'操作',
+                    width:250,
                     render:(h,params)=>{
                         return h('div',[
                             h('Button',
@@ -53,8 +54,18 @@ export default {
                                     click:()=>{
                                         this.delete(params.index)
                                     }
+                                },
+                                class:{
+                                    button:true
                                 }
-                            },'Del')
+                            },'Del'),
+                            h('Button',{
+                                on:{
+                                    click:()=>{
+                                        this.$router.push(`/model-page/${params.row.name}`)
+                                    }
+                                }
+                            },'Preview')
                         ])
                     }
                 }

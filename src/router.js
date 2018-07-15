@@ -50,6 +50,10 @@ export default new Router({
           component:()=>import('@/models/model-list')
         },
         {
+          path:'/model-page/:model',
+          component:()=>import('@/models/model-page')
+        },
+        {
           path:'*',
           component:()=>import('@/views/NotFound')
         }
