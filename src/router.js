@@ -41,6 +41,10 @@ export default new Router({
           component:()=>import('@/models/model-new')
         },
         {
+          path:'/model-list',
+          component:()=>import('@/models/model-list')
+        },
+        {
           path:'*',
           component:()=>import('@/views/NotFound')
         }
