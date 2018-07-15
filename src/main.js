@@ -18,7 +18,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.config.productionTip = false
 
-
 new Vue({
   el:'#app',
   router,
@@ -29,3 +28,4 @@ new Vue({
     store.commit('updateMenuList')
   }
 })
+

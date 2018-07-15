@@ -1,7 +1,7 @@
 <template>
     <Row>
         <Col span="12" offset="6">
-            <Table height="300" :columns="columns" :data="data">
+            <Table height="500" :columns="columns" :data="data">
                 <template slot="header">
                     模型列表
                 </template>
@@ -59,12 +59,13 @@ export default {
                     }
                 }
             ],
-            data:[{name:'test',collname:'test',schama:{name:'tangxuke',age:10}}]
+            data:[]
         }
     },
     methods:{
         view(index){
-            this.$Modal.info({title:'查看架构',content:JSON.stringify(this.data[index].schama)})
+            this.$router.push({name:'model-edit',params:{'name':this.data[index].name}})
+            //this.$Modal.info({title:'查看架构',content:JSON.stringify(this.data[index].schama)})
         },
         delete(index){
 
@@ -76,11 +77,15 @@ export default {
             },500)
         },
         getModels(){
+            this.data=[]
             axios.get('http://localhost:3000/model').then((value)=>{
-
+                if(value.data.success)
+                    this.data=value.data.result;
+                else
+                    this.$Modal.error({title:'读取列表',content:'读取列表失败！原因：'+err.message})
             })
             .catch((err)=>{
-                this.$Modal.info({title:'读取列表',content:'读取列表失败！原因：'+err.message})
+                this.$Modal.error({title:'读取列表',content:'读取列表失败！原因：'+err.message})
             })
         }
     },

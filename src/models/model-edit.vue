@@ -4,13 +4,14 @@
             <Col span="8" offset="2">
                 <Form>
                     <FormItem label="架构名称">
-                        <Input autofocus="true" v-model="name" @on-change="typing" placeholder="架构名称" />
+                        <Input v-model="name" disabled="true" @on-change="typing" placeholder="架构名称" />
                     </FormItem>
                     <FormItem label="集合名称">
-                        <Input v-model="collname" placeholder="集合名称" />
+                        <Input v-model="collname" disabled="true" placeholder="集合名称" />
                     </FormItem>
                     
                     <Button type="primary" style="margin:10px;" @click="save">保存</Button>
+                    <Button type="ghost" style="margin:10px;" @click="goback">返回</Button>
                 </Form>
             </Col>
             <Col span="10" offset="2">
@@ -107,6 +108,9 @@ export default {
         }
     },
     methods:{
+        goback:function(){
+            this.$router.push('/model-list')
+        },
         visibleChange:function(visible){
             if(visible)
             {
@@ -190,20 +194,17 @@ export default {
                 collname:this.collname,
                 schama:schama
             }
-            axios.post('http://localhost:3000/model/new',model)
+            axios.post('http://localhost:3000/model/edit',model)
                 .then((value)=>{
                     if(value.data.success)
                     {
-                        this.$Modal.success({title:'系统提示',content:'创建架构成功！'});
-                        this.name="";
-                        this.collname="";
-                        this.data=[];
+                        this.$Modal.success({title:'系统提示',content:'修改架构成功！',onOk:()=>this.$router.push('/model-list')});
                     }
                     else
-                        this.$Modal.error({title:'系统提示',content:'创建架构失败！原因：'+value.data.message});
+                        this.$Modal.error({title:'系统提示',content:'修改架构失败！原因：'+value.data.message});
                 })
                 .catch((err)=>{
-                    this.$Modal.error({title:'系统提示',content:'创建架构失败！原因：'+err.message});
+                    this.$Modal.error({title:'系统提示',content:'修改架构失败！原因：'+err.message});
                 })
         },
         typing:function(){
@@ -214,6 +215,25 @@ export default {
             if(this.name.length==0)
                 this.collname='';
         }
+    },
+    mounted:function(){
+        this.name=this.$route.params.name;
+        axios.get('http://localhost:3000/model/find/'+this.name)
+            .then((value)=>{
+                if(value.data.success)
+                {
+                    this.collname=value.data.result.collname;
+                    for(var p in value.data.result.schama)
+                    {
+                        this.data.push({name:p,type:value.data.result.schama[p]})
+                    }
+
+                }
+                else
+                {
+                    this.$Modal.info({title:'系统提示',content:value.data.message,onOk:()=>this.$router.push('/model-list')})
+                }
+            })
     }
 }
 </script>

@@ -41,6 +41,11 @@ export default new Router({
           component:()=>import('@/models/model-new')
         },
         {
+          name:'model-edit',
+          path:'/model-edit/:name',
+          component:()=>import('@/models/model-edit')
+        },
+        {
           path:'/model-list',
           component:()=>import('@/models/model-list')
         },
