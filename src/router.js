@@ -21,8 +21,14 @@ export default new Router({
           component:()=>import('@/views/About')
         },
         {
+          name:'new-menu',
           path:'/new-menu',
           component:()=>import('@/views/NewMenu')
+        },
+        {
+          name:'new-menu2',
+          path:'/new-menu2/:name/:title/:path',
+          component:()=>import('@/views/NewMenu2')
         },
         {
           path:'/menu-list',

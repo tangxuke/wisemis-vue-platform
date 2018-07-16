@@ -35,7 +35,7 @@ export default {
                 },
                 {
                     title:'操作',
-                    width:250,
+                    width:350,
                     render:(h,params)=>{
                         return h('div',[
                             h('Button',
@@ -60,12 +60,31 @@ export default {
                                 }
                             },'Del'),
                             h('Button',{
+                                class:{
+                                    button:true
+                                },
                                 on:{
                                     click:()=>{
                                         this.$router.push(`/model-page/${params.row.name}`)
                                     }
                                 }
-                            },'Preview')
+                            },'Preview'),
+                            h('Button',{
+                                on:{
+                                    click:()=>{
+                                        this.$router.push(
+                                            {
+                                                name:'new-menu2'
+                                                ,params:{
+                                                    name:params.row.name
+                                                    ,title:params.row.name
+                                                    ,path:'/model-page/'+params.row.name
+                                                }
+                                            }
+                                        )
+                                    }
+                                }
+                            },'Add Menu')
                         ])
                     }
                 }

@@ -198,7 +198,7 @@ export default {
                 .then((value)=>{
                     if(value.data.success)
                     {
-                        this.$Modal.success({title:'系统提示',content:'修改架构成功！',onOk:()=>this.$router.push('/model-list')});
+                        this.$Modal.success({title:'系统提示',content:'修改架构成功！<br/>请重新启动Node.js服务器使修改生效！',onOk:()=>this.$router.push('/model-list')});
                     }
                     else
                         this.$Modal.error({title:'系统提示',content:'修改架构失败！原因：'+value.data.message});
