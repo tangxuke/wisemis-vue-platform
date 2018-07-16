@@ -2,7 +2,7 @@
     <div id="root">
         <p>这是模板展示页面：{{$route.params.model}}</p>
         <hr/>
-        <Table border="true" highlight-row="true" :columns="columns" :data="data">
+        <Table  :columns="columns" :data="data">
             <template slot="header">
                 <div>
                     <Button type="success" style="margin-left:5px" @click="showDialog=true">新建</Button>
@@ -34,7 +34,7 @@ export default {
             obj:new Object(),
             columns:[{type:'index',title:'#',width:50}],
             data_columns:[],
-            data:[{},{},{},{},{}]
+            data:[]
         }
     },
     computed:{
@@ -100,7 +100,7 @@ export default {
                             this.data_columns.push({name:item,type:schama[item]})
                             this.obj[item]=null
                         })
-                        this.columns.push(this.actionColumn)
+                        /this.columns.push(this.actionColumn)
                         this.fetchData()
                     }else{
                         this.$Modal.info({title:'系统提示',content:val.data.message})

@@ -13,23 +13,23 @@ export default new Router({
       redirect:'/home',
       children:[
         {
-          path:'home',
+          path:'/home',
           component:()=>import('@/views/Home')
         },
         {
-          path:'about',
+          path:'/about',
           component:()=>import('@/views/About')
         },
         {
-          path:'new-menu',
+          path:'/new-menu',
           component:()=>import('@/views/NewMenu')
         },
         {
-          path:'menu-list',
+          path:'/menu-list',
           component:()=>import('@/views/Menu')
         },
         {
-          path:'register',
+          path:'/register',
           component:()=>import('@/views/users/Register')
         },
         {

@@ -66,14 +66,14 @@ export default {
       })
         .then(res => {
           if (res.data.success){
-            alert("添加菜单成功！");
+            this.$Modal.info({title:'系统提示',content:'添加菜单成功！'});
             this.clear();
             this.$store.commit('updateMenuList');
           } 
-          else alert("添加菜单失败！");
+          else this.$Modal.info({title:'系统提示',content:'添加菜单失败！'});
         })
         .catch(err => {
-          alert("发生异常：" + res.data.message);
+          this.$Modal.info({title:'系统提示',content:"发生异常：" + res.data.message});
         });
       //this.clear()
     },
