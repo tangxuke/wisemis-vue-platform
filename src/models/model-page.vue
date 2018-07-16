@@ -2,7 +2,7 @@
     <div id="root">
         <p>这是模板展示页面：{{$route.params.model}}</p>
         <hr/>
-        <Table  :columns="columns" :data="data">
+        <Table :border="true"  :columns="columns" :data="data">
             <template slot="header">
                 <div>
                     <Button type="success" style="margin-left:5px" @click="showDialog=true">新建</Button>
@@ -10,13 +10,18 @@
             </template>
         </Table>
         <Modal v-model="showDialog" @on-ok="ok">
-            <Form>
-                <template v-for="column in data_columns">
-                    <FormItem :label="column.name" :key="column.name">
-                        <Input v-model="obj[column.name]"/>
-                    </FormItem>
+            <Form  :label-width="100">
+                <Tabs :animated="false" :capture-focus="true">
+                    <TabPane v-for="i in Math.ceil(data_columns.length/countPerPage)" :key="'key'+i" :label="'第 '+i+' 页'">
+                        <template v-for="column in data_columns.slice((i-1)*countPerPage,(i-1)*countPerPage+countPerPage)">
+                            <FormItem :label="column.name" :key="column.name">
+                                <Input v-model="obj[column.name]"/>
+                            </FormItem>
 
-                </template>
+                        </template>
+                    </TabPane>
+                
+                </Tabs>
             </Form>
         </Modal>
     </div>
@@ -29,20 +34,13 @@ import axios from 'axios';
 export default {
     data(){
         return {
+            countPerPage:10,
             showDialog:false,
             name:'',
             obj:new Object(),
-            columns:[{type:'index',title:'#',width:50}],
-            data_columns:[],
-            data:[]
-        }
-    },
-    computed:{
-        actionColumn:()=>{
-            return {
+            columns:[{type:'index',title:'#',width:50},{
                 title:'操作',
                 width:160,
-                fixed:'right',
                 align:'center',
                 render:(h,params)=>{
                     return h('div',[
@@ -54,7 +52,7 @@ export default {
                             style:{
                                 'margin-right':'3px'
                             }
-                        },'Edit/View'),
+                        },'Edit'),
                         h('Button',{
                             props:{
                                 type:'text',
@@ -63,7 +61,9 @@ export default {
                         },'Delete')
                     ])
                 }
-            }
+            }],
+            data_columns:[],
+            data:[]
         }
     },
     methods:{
@@ -100,7 +100,6 @@ export default {
                             this.data_columns.push({name:item,type:schama[item]})
                             this.obj[item]=null
                         })
-                        /this.columns.push(this.actionColumn)
                         this.fetchData()
                     }else{
                         this.$Modal.info({title:'系统提示',content:val.data.message})
