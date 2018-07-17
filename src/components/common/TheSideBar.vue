@@ -56,6 +56,7 @@
   position: relative;
   background-color: #fff;
   color:darkblue;
+  padding: 5px 15px;
 }
 .menu .menu-content .menu-item {
   position: relative;
@@ -63,13 +64,13 @@
   /*line-height: 30px;*/
   padding: 5px;
   font-size: 80%;
+  list-style-type: none;
 }
 
 .menu .menu-content .menu-item-active{
-  background-color: rgb(240, 240, 240);
-  color: rgb(100, 100, 100);
-  border: 1px solid #f0f0f0;
   border-radius: 4px;
+  font-weight: bold;
+  background-color:lightblue;
 }
 
 .menu-item:hover {
@@ -124,7 +125,7 @@
 export default {
   data: function() {
     return {
-      opened: 0,
+      opened: [],
       selected:'',
     };
   },
@@ -138,19 +139,26 @@ export default {
       this.selected=key;
       if(item.path)
         this.$router.push(item.path);
-      else
-        this.$router.push('404');
+
+    },
+    findPos:function(index){
+      return this.opened.findIndex((item)=>{
+        return item==index;
+      })
     },
     isopen: function(index) {
-      return this.opened==index;
+      var i=this.findPos(index);
+      return i>-1?true:false;
     },
     toggleOpen: function(index,item) {
-      if(this.opened==index)
-        this.opened='$$$$$$$$$$$$';
+      var i=this.findPos(index);
+      if(i>-1)
+        this.opened.splice(i,1);
       else
-        this.opened=index;
-      /*if(item.path)
-        this.$router.push(item.path);*/
+        this.opened.push(index);
+
+      if(item.path)
+        this.$router.push(item.path);
     }
   }
 };

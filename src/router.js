@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './views/Main.vue'
 import Login from './views/users/Login'
+import Logout from './views/users/Logout'
 
 Vue.use(Router)
 
@@ -62,6 +63,10 @@ export default new Router({
         {
           path:'/model-page/:model',
           component:()=>import('@/models/model-page')
+        },
+        {
+          path:'/logout',
+          component:Logout
         },
         {
           path:'*',
