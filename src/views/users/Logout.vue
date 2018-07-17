@@ -4,9 +4,10 @@ import axios from 'axios'
 export default {
     methods:{
         logout:function(){
-            this.$Modal.confirm({title:'注销提示',content:'你真的要退出系统吗？',onOk:()=>this.$router.push('/login')})
+            this.$Modal.confirm({title:'注销提示',content:'你真的要退出系统吗？',onOk:this.do_logout})
         },
         do_logout:function(){
+            sessionStorage.setItem('test','tangxuke');
             axios.post('http://localhost:3000/users/logout',{})
             .then((value)=>{
                 if(value.data.success)
