@@ -37,7 +37,7 @@ export default {
                     {
                         title: 'Action',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         render: (h, params) => {
                             return h('div', [
                                 h('Button', {
@@ -48,7 +48,7 @@ export default {
                                     on:{
                                         click:()=>this.readMenu(this.data4[params.index].name)
                                     }
-                                }, 'View'),
+                                }, 'Sub Menu'),
                                 h('Button', {
                                     props: {
                                         type: 'text',

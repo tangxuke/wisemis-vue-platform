@@ -51,10 +51,7 @@ export default {
             axios.post('http://localhost:3000/users/add',body)
                 .then((res)=>{
                     if(res.data.success){
-                        this.$Modal.success({content:'注册成功！'})
-                        this.userName=''
-                        this.password=''
-                        this.password1=''
+                        this.$Modal.success({content:'注册成功！',onOk:()=>this.$router.push('/users')})
                     }else{
                         this.$Modal.error({content:'注册失败！原因：'+res.data.message})
                     }

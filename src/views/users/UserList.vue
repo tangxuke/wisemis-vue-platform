@@ -1,7 +1,11 @@
 <template>
     <div id="root">
         <h1>用户列表</h1>
-        <Table width="80%" height="400" border :columns="columns1" :data="userList"></Table>
+        <Table width="80%" height="400" border :columns="columns1" :data="userList">
+            <div style="padding:0 0 5px 5px;" slot="header">
+                <Button type="success" @click="$router.push('/register')">注册用户</Button>
+            </div>
+        </Table>
         <Modal v-model="modal1" :title="'修改密码 - '+username" @on-ok="ok" @on-cancel="cancel" ref="modal2">
             <Form>
                 <FormItem label="密码">
@@ -50,7 +54,7 @@ export default {
                                 },
                                 on:{
                                     click:()=>{
-                                        this.username=this.userList[params.index].username;
+                                        this.username=params.row.username;
                                         this.modal1=true;
                                     }
                                 }
@@ -66,7 +70,9 @@ export default {
                                     'margin-left':'5px'
                                 },
                                 on:{
-
+                                    click:()=>{
+                                        this.remove(params.row.username)
+                                    }
                                 }
                             }
                             ,'删用户')
@@ -85,9 +91,44 @@ export default {
                 return;
             }
             //修改密码
-            //关闭
-            this.clear();
-            this.$refs.modal2.close();
+            axios.post('http://localhost:3000/users/change-pass-admin',{'username':this.username,'password':this.password1})
+                .then((value)=>{
+                    if(value.data.success){
+                        this.$Modal.info({
+                            title:'系统提示'
+                            ,content:'修改密码成功！'
+                            ,onOk:()=>{
+                                this.clear();
+                                this.cancel();
+                            }
+                        })
+                    }
+                })
+        },
+        remove:function(username){
+            this.$Modal.confirm({
+                title:'删除提示',
+                content:`你真的要删除用户[${username}]吗？`,
+                onOk:()=>{
+                    axios.post('http://localhost:3000/users/del-user',{'username':username})
+                        .then((value)=>{
+                            if(value.data.success){
+                                setTimeout(()=>{
+                                    this.$Modal.info({title:'删除提示',content:'删除用户成功！'})
+                                    this.getUsers()
+                                },500)
+                            }else{
+                                setTimeout(()=>{
+                                    this.$Modal.error({title:'删除提示',content:'删除用户失败！原因：'+value.data.message})
+                                },500)
+                            }
+                        }).catch((error)=>{
+                            setTimeout(()=>{
+                                this.$Modal.error({title:'删除提示',content:'删除用户失败！原因：'+error.message})
+                            },500)
+                        })
+                }
+            })
         },
         clear:function(){
             this.password1='';

@@ -195,9 +195,7 @@ export default {
                     if(value.data.success)
                     {
                         this.$Modal.success({title:'系统提示',content:'创建架构成功！'});
-                        this.name="";
-                        this.collname="";
-                        this.data=[];
+                        this.$router.push('/model-list')
                     }
                     else
                         this.$Modal.error({title:'系统提示',content:'创建架构失败！原因：'+value.data.message});

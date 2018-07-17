@@ -45,14 +45,14 @@ export default {
                                 },
                                 on:{
                                     click:()=>{
-                                        this.view(params.index);
+                                        this.view(params.row.name);
                                     }
                                 }
                             },'View'),
                             h('Button',{
                                 on:{
                                     click:()=>{
-                                        this.delete(params.index)
+                                        this.delete(params.row.name)
                                     }
                                 },
                                 class:{
@@ -93,18 +93,30 @@ export default {
         }
     },
     methods:{
-        view(index){
-            this.$router.push({name:'model-edit',params:{'name':this.data[index].name}})
-            //this.$Modal.info({title:'查看架构',content:JSON.stringify(this.data[index].schama)})
+        view(name){
+            this.$router.push({name:'model-edit',params:{'name':name}})
         },
-        delete(index){
-
-            this.$Modal.confirm({title:'删除架构',content:'是否删除此架构？',onOk:()=>this.doDelete(index)})
+        delete(name){
+            this.$Modal.confirm({title:'删除架构',content:`是否删除此架构[${name}]？`,onOk:()=>this.doDelete(name)})
         },
-        doDelete(index){
-            setTimeout(()=>{
-                this.$Modal.info({title:'删除架构',content:'代码尚未实现'})
-            },500)
+        doDelete(name){
+            axios.post('http://localhost:3000/model/del',{'name':name})
+                .then((value)=>{
+                    if(value.data.success){
+                        setTimeout(()=>{
+                            this.$Modal.info({title:'删除架构',content:'删除架构成功！',onOk:()=>this.getModels()})
+                        },500)
+                        
+                    }else{
+                        setTimeout(()=>{
+                            this.$Modal.info({title:'删除架构',content:'删除架构失败！原因：'+value.data.message})
+                        },500)
+                    }
+                }).catch((err)=>{
+                    setTimeout(()=>{
+                            this.$Modal.info({title:'删除架构',content:'删除架构失败！原因：'+err.message})
+                        },500)
+                })
         },
         getModels(){
             this.data=[]
