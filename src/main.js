@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import axios from '@/util/my_axios'
+
+Vue.prototype.$http=axios
 
 //element-ui
 //import ElementUI from 'element-ui'
