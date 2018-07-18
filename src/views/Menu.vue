@@ -26,7 +26,6 @@
 </div>
 </template>
 <script>
-import axios from 'axios'
 
 export default {
         data () {
@@ -118,7 +117,7 @@ export default {
             },
             deleteMenu:function(index){
                 if(confirm('你真的要删除此菜单吗？')){
-                    axios.post('http://localhost:3000/menu/del',{parent:this.parent,name:this.data4[index].name})
+                    this.$http.post('http://localhost:3000/menu/del',{parent:this.parent,name:this.data4[index].name})
                         .then((res)=>{
                             if(res.data.success){
                                 alert('删除菜单成功！')
@@ -140,7 +139,7 @@ export default {
                     path:this.data4[this.index].path,
                     icon:this.data4[this.index].icon
                 }
-                axios.post('http://localhost:3000/menu/edit',data)
+                this.$http.post('http://localhost:3000/menu/edit',data)
                     .then((res)=>{
                         if(res.data.success){
                             alert('修改成功')
@@ -159,7 +158,7 @@ export default {
                 if(parent)
                     url+='/children/'+parent
 
-                axios.get(url)
+                this.$http.get(url)
                     .then(
                     (res)=>{
                     if(res.data.success)
