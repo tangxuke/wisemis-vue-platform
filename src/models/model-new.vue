@@ -39,7 +39,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
     data:function(){
@@ -190,7 +189,7 @@ export default {
                 collname:this.collname,
                 schama:schama
             }
-            axios.post('http://localhost:3000/model/new',model)
+            this.$http.post('http://localhost:3000/model/new',model)
                 .then((value)=>{
                     if(value.data.success)
                     {

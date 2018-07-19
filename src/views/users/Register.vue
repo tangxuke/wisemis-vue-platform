@@ -16,7 +16,6 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
 
 export default {
     data:function(){
@@ -48,7 +47,7 @@ export default {
                 'username':this.userName,
                 'password':this.password
             }
-            axios.post('http://localhost:3000/users/add',body)
+            this.$http.post('http://localhost:3000/users/add',body)
                 .then((res)=>{
                     if(res.data.success){
                         this.$Modal.success({content:'注册成功！',onOk:()=>this.$router.push('/users')})

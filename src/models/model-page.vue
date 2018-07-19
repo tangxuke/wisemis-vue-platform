@@ -29,7 +29,6 @@
 
 
 <script>
-import axios from 'axios';
 
 export default {
     data(){
@@ -115,7 +114,7 @@ export default {
         },
         do_del:function(_id){
             setTimeout(()=>{
-                axios.post(`http://localhost:3000/custom-model/${this.name}/del`,{'_id':_id})
+                this.$http.post(`http://localhost:3000/custom-model/${this.name}/del`,{'_id':_id})
                 .then((value)=>{
                     if(value.data.success){
                         this.$Modal.info({title:'系统提示',content:'删除记录成功！'})
@@ -150,7 +149,7 @@ export default {
             else
                 url=`http://localhost:3000/custom-model/${this.name}/edit`
 
-            axios.post(url,{'_id':this._id,'data':this.obj})
+            this.$http.post(url,{'_id':this._id,'data':this.obj})
             .then((value)=>{
                 if(value.data.success){
                     this.$Modal.success(
@@ -166,7 +165,7 @@ export default {
             })
         },
         fetchData:function(){
-            axios.get(`http://localhost:3000/custom-model/${this.name}`)
+            this.$http.get(`http://localhost:3000/custom-model/${this.name}`)
                 .then((res)=>{
                     if(res.data.success)
                         this.data=res.data.result
@@ -176,7 +175,7 @@ export default {
         },
         readModel:function(){
             this.init()
-            axios.get(`http://localhost:3000/model/find/${this.name}`)
+            this.$http.get(`http://localhost:3000/model/find/${this.name}`)
                 .then((val)=>{
                     if(val.data.success){
                         var schama=val.data.result.schama

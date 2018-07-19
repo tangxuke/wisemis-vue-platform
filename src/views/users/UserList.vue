@@ -24,7 +24,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
     data:function(){
@@ -91,7 +90,7 @@ export default {
                 return;
             }
             //修改密码
-            axios.post('http://localhost:3000/users/change-pass-admin',{'username':this.username,'password':this.password1})
+            this.$http.post('http://localhost:3000/users/change-pass-admin',{'username':this.username,'password':this.password1})
                 .then((value)=>{
                     if(value.data.success){
                         this.$Modal.info({
@@ -110,7 +109,7 @@ export default {
                 title:'删除提示',
                 content:`你真的要删除用户[${username}]吗？`,
                 onOk:()=>{
-                    axios.post('http://localhost:3000/users/del-user',{'username':username})
+                    this.$http.post('http://localhost:3000/users/del-user',{'username':username})
                         .then((value)=>{
                             if(value.data.success){
                                 setTimeout(()=>{
@@ -139,7 +138,7 @@ export default {
             this.$refs.modal2.close();
         },
         getUsers:function(){
-            axios.get('http://localhost:3000/users')
+            this.$http.get('http://localhost:3000/users')
                 .then((value)=>{
                     if(value.data.success)
                         this.userList=value.data.result;

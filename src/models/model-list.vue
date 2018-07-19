@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
     data(){
@@ -100,7 +99,7 @@ export default {
             this.$Modal.confirm({title:'删除架构',content:`是否删除此架构[${name}]？`,onOk:()=>this.doDelete(name)})
         },
         doDelete(name){
-            axios.post('http://localhost:3000/model/del',{'name':name})
+            this.$http.post('http://localhost:3000/model/del',{'name':name})
                 .then((value)=>{
                     if(value.data.success){
                         setTimeout(()=>{
@@ -120,7 +119,7 @@ export default {
         },
         getModels(){
             this.data=[]
-            axios.get('http://localhost:3000/model').then((value)=>{
+            this.$http.get('http://localhost:3000/model').then((value)=>{
                 if(value.data.success)
                     this.data=value.data.result;
                 else

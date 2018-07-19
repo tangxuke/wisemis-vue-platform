@@ -40,8 +40,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
     data:function(){
         return {
@@ -194,7 +192,7 @@ export default {
                 collname:this.collname,
                 schama:schama
             }
-            axios.post('http://localhost:3000/model/edit',model)
+            this.$http.post('http://localhost:3000/model/edit',model)
                 .then((value)=>{
                     if(value.data.success)
                     {
@@ -218,7 +216,7 @@ export default {
     },
     mounted:function(){
         this.name=this.$route.params.name;
-        axios.get('http://localhost:3000/model/find/'+this.name)
+        this.$http.get('http://localhost:3000/model/find/'+this.name)
             .then((value)=>{
                 if(value.data.success)
                 {

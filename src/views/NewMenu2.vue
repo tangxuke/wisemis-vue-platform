@@ -33,7 +33,6 @@
 
 
 <script>
-import axios from "axios";
 
 export default {
   data: () => {
@@ -64,7 +63,7 @@ export default {
         icon: this.icon,
         parent:this.parent
       };
-      axios({
+      this.$http({
         method: "post",
         url: "http://localhost:3000/menu/add",
         data: body

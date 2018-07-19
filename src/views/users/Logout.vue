@@ -1,5 +1,4 @@
 <script>
-import axios from 'axios'
 
 export default {
     methods:{
@@ -8,7 +7,7 @@ export default {
         },
         do_logout:function(){
             
-            axios.post('http://localhost:3000/users/logout',{})
+            this.$http.post('http://localhost:3000/users/logout',{})
             .then((value)=>{
                 if(value.data.success)
                     this.$router.push('/login')

@@ -19,10 +19,8 @@ const app={
                     if(res.data.success){
                         state.menuList=res.data.result
                     }else{
-                        alert('1'+JSON.stringify(res.data))
                     }
                 }).catch((error)=>{
-                    alert('2'+error.message)
                 })
         },
         setCurrentPage:function(state,page){
