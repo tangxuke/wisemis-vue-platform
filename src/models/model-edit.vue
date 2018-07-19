@@ -30,8 +30,9 @@
                 </FormItem>
                 <FormItem label="数据类型">
                     <Select v-model="field.type" placeholder="数据类型">
-                        <Option value="string">string</Option>
-                        <Option value="number">number</Option>
+                        <template v-for="type in schama_types">
+                            <Option :value="type" v-text="type" :key="type"></Option>
+                        </template>
                     </Select>
                 </FormItem>
             </Form>
@@ -40,9 +41,11 @@
 </template>
 
 <script>
+import schama_types from '@/util/schama_types'
 export default {
     data:function(){
         return {
+            schama_types:schama_types,
             showModal:false,
             field:{
                 name:'',
@@ -120,7 +123,7 @@ export default {
         create:function(){
             this.field.index=-1;
             this.field.name='';
-            this.field.type='string';
+            this.field.type='String';
             this.showModal=true;
         },
         modify:function(index){

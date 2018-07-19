@@ -15,7 +15,12 @@
                     <TabPane v-for="i in Math.ceil(data_columns.length/countPerPage)" :key="'key'+i" :label="'第 '+i+' 页'">
                         <template v-for="column in data_columns.slice((i-1)*countPerPage,(i-1)*countPerPage+countPerPage)">
                             <FormItem :label="column.name" :key="column.name">
-                                <Input v-model="obj[column.name]"/>
+                                <template v-if="column.type=='Boolean'">
+                                    <Checkbox v-model="obj[column.name]"></Checkbox>
+                                </template>
+                                <template v-else>
+                                    <Input v-model="obj[column.name]"/>
+                                </template>
                             </FormItem>
 
                         </template>
@@ -136,13 +141,35 @@ export default {
             this.showDialog=true
         },
         createNew:function(){
-            for(var key in this.obj){
-                this.obj[key]=''
-            }
+            this.data_columns.forEach((item)=>{
+                var def_value=''
+
+                switch(item.type){
+                    case 'Boolean':
+                        def_value=false
+                        break
+                    case 'Number':
+                        def_value=0
+                        break
+                    case 'Date':
+                        def_value=new Date()
+                        break
+                    case 'String':
+                        def_value=''
+                        break
+                    default:
+                        def_value=null
+                        break
+                }
+
+                this.obj[item.name]=def_value
+            })
+            
             this.action='new'
             this.showDialog=true
         },
         ok:function(){
+
             var url;
             if(this.action=='new')
                 url=`http://localhost:3000/custom-model/${this.name}/new`
@@ -180,10 +207,19 @@ export default {
                     if(val.data.success){
                         var schama=val.data.result.schama
                         Object.keys(schama).forEach((item)=>{
-                            this.columns.push({
-                                key:item,
-                                title:item
-                            })
+                            var column=new Object();
+                            column['key']=item
+                            column['title']=item
+                            if(schama[item]=='Boolean'){
+                                column['render']=(h,params)=>{
+                                    return h('Checkbox',{
+                                        props:{
+                                            value:params.row[item]
+                                        }
+                                    })
+                                }
+                            }
+                            this.columns.push(column)
                             this.data_columns.push({name:item,type:schama[item]})
                             this.obj[item]=null
                         })
