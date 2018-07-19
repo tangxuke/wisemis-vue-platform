@@ -226,7 +226,6 @@ export default {
             return this.$store.state.app.menuTheme
         },
         menuList:function(){
-            console.log(this.$store.state.app.menuList)
             return this.$store.state.app.menuList
         }
     },

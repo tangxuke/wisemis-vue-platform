@@ -1,7 +1,7 @@
 /**
  * 内置的状态管理器
  */
-import axios from 'axios'
+import axios from '@/util/my_axios'
 
 const app={
     state:{
@@ -18,7 +18,11 @@ const app={
                 .then((res)=>{
                     if(res.data.success){
                         state.menuList=res.data.result
+                    }else{
+                        alert('1'+JSON.stringify(res.data))
                     }
+                }).catch((error)=>{
+                    alert('2'+error.message)
                 })
         },
         setCurrentPage:function(state,page){

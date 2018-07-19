@@ -20,7 +20,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
 
 export default {
   data(){
@@ -36,10 +35,12 @@ export default {
         this.$Modal.info({title:'系统提示',content:'请输入用户名！'})
         return
       }
-      axios.post('http://localhost:3000/users/login',{username:this.username,password:this.password})
+      this.$http.post('http://localhost:3000/users/login',{username:this.username,password:this.password})
       .then((value)=>{
-        if(value.data.success)
+        if(value.data.success){
+          this.$store.commit('updateMenuList')
           this.$router.push('/')
+        } 
         else{
           this.$Modal.info({title:'登录失败',content:value.data.message})
         }
