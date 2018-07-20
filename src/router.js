@@ -48,6 +48,14 @@ export default new Router({
           component:()=>import('@/views/users/UserList')
         },
         {
+          path:'/change-pass',
+          component:()=>import('@/views/users/ChangePassword')
+        },
+        {
+          path:'/org-group',
+          component:()=>import('@/views/users/OrgGroup')
+        },
+        {
           path:'/model-new',
           component:()=>import('@/models/model-new')
         },

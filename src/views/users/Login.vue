@@ -38,6 +38,7 @@ export default {
       this.$http.post('http://localhost:3000/users/login',{username:this.username,password:this.password})
       .then((value)=>{
         if(value.data.success){
+          this.$store.commit('login',this.username)
           this.$store.commit('updateMenuList')
           this.$router.push('/')
         } 

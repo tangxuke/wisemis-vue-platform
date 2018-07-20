@@ -1,7 +1,9 @@
 <template>
     <div id="root">
-        <Form>
-            <h1>用户注册</h1>
+
+        <Form :labelWidth="80" style="width:300px;">
+            <FormItem label="用户注册">
+            </FormItem>
             <FormItem label="用户名">
                 <Input clearable v-model="userName" placeholder="用户名" icon="person"/>
             </FormItem>
@@ -11,7 +13,10 @@
             <FormItem label="确认密码">
                 <Input type="password" clearable v-model="password1" placeholder="确认密码"/>
             </FormItem>
-            <Button type="primary" @click="submit">注册</Button>
+            <FormItem>
+                <Button type="primary" @click="submit">注册</Button>
+            </FormItem>
+            
         </Form>
     </div>
 </template>

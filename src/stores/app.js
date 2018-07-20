@@ -10,9 +10,16 @@ const app={
         menuList:[],        /*侧边栏菜单*/
         openedSubmenuArr:[], /**要展开的菜单数组 */
         openTabs:[],         /**打开的页签 */
-        currentPage:''       /**当前页签*/   
+        currentPage:'',       /**当前页签*/  
+        username:''         /*登录用户名*/ 
     },
     mutations:{
+        login:function(state,username){
+            state.username=username
+        },
+        logout:function(state){
+            state.username=''
+        },
         updateMenuList:function(state){
             axios.get('http://localhost:3000/menu')
                 .then((res)=>{

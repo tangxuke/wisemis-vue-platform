@@ -17,6 +17,7 @@
                 </div>
                 <div class="header-middle-con">
                     <div class="main-breadcrumb">
+                        <p>当前用户：{{loginUser}}</p>
                         <!--breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav-->
                     </div>
                 </div>
@@ -227,6 +228,9 @@ export default {
         },
         menuList:function(){
             return this.$store.state.app.menuList
+        },
+        loginUser:function(){
+            return this.$store.state.app.username
         }
     },
     methods:{

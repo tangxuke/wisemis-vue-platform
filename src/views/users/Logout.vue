@@ -9,8 +9,10 @@ export default {
             
             this.$http.post('http://localhost:3000/users/logout',{})
             .then((value)=>{
-                if(value.data.success)
+                if(value.data.success){
+                    this.$store.commit('logout')
                     this.$router.push('/login')
+                }
                 else
                     setTimeout(()=>{
                         this.$Modal.info({title:'注销失败',content:value.data.message})

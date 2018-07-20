@@ -1,1 +1,1 @@
-export default ['String','Number','Boolean','Object','Buffer','Date','ObjectId','Mixed']
+export default ['String','Number','Boolean','Array','Object','Buffer','Date','ObjectId','Mixed']
