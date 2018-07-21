@@ -24,8 +24,8 @@
 export default {
   data(){
     return {
-      'username':'',
-      'password':''
+      'username':'tangxuke',
+      'password':'123'
     }
   },
   methods:{

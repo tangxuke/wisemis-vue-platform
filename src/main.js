@@ -7,9 +7,9 @@ import axios from '@/util/my_axios'
 Vue.prototype.$http=axios
 
 //element-ui
-//import ElementUI from 'element-ui'
-//import 'element-ui/lib/theme-chalk/index.css'
-//Vue.use(ElementUI)
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
 
 //iview
 import iView from 'iview'
