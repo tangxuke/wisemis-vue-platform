@@ -73,6 +73,10 @@ export default new Router({
           component:()=>import('@/models/model-page')
         },
         {
+          path:'/page-designer',
+          component:()=>import('@/designers/page-designer')
+        },
+        {
           path:'/logout',
           component:Logout
         },

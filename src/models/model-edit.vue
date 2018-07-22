@@ -1,7 +1,7 @@
 <template>
     <div id="root">
         <Row>
-            <Col span="8" offset="2">
+            <Col span="8">
                 <Form>
                     <FormItem label="架构名称">
                         <Input v-model="name" disabled="true" @on-change="typing" placeholder="架构名称" />
@@ -14,7 +14,7 @@
                     <Button type="ghost" style="margin:10px;" @click="goback">返回</Button>
                 </Form>
             </Col>
-            <Col span="10" offset="2">
+            <Col span="14" offset="1">
                 <Table border :columns="columns" :data="data">
                     <template slot="header">
                         <Button type="success" style="margin:5px;" @click="create">添加字段</Button>
@@ -24,16 +24,23 @@
         </Row>
         
         <Modal v-model="showModal" @on-ok="ok" @on-cancel="cancel" @on-visible-change="visibleChange">
-            <Form>
+            <Form :labelWidth="100">
                 <FormItem label="字段名称">
                     <Input v-model="field.name" ref="fieldname" placeholder="字段名称"/>
                 </FormItem>
+                <FormItem label="字段标题">
+                    <Input v-model="field.title" placeholder="字段标题"/>
+                </FormItem>
+
                 <FormItem label="数据类型">
                     <Select v-model="field.type" placeholder="数据类型">
                         <template v-for="type in schama_types">
-                            <Option :value="type" v-text="type" :key="type"></Option>
+                            <Option :value="type" :key="type">{{type}}</Option>
                         </template>
                     </Select>
+                </FormItem>
+                <FormItem label="字段长度">
+                    <Input v-model="field.length" placeholder="字段长度"/>
                 </FormItem>
             </Form>
         </Modal>
@@ -49,7 +56,9 @@ export default {
             showModal:false,
             field:{
                 name:'',
-                type:'string',
+                title:'',
+                length:80,
+                type:schama_types[0],
                 index:-1
             },
             name:'',
@@ -64,16 +73,27 @@ export default {
                 },
                 {
                     key:'name',
-                    title:'字段名'
+                    title:'字段名',
+                    width:90
+                },
+                {
+                    key:'title',
+                    title:'标题',
+                    width:90
                 },
                 {
                     key:'type',
-                    title:'类型'
+                    title:'类型',
+                    width:90
+                },
+                {
+                    key:'length',
+                    title:'长度',
+                    width:80
                 },
                 {
                     title:'Action',
                     align:'center',
-                    width:120,
                     render:(h,params)=>{
                         return h('div',
                         [
@@ -121,14 +141,18 @@ export default {
             }  
         },
         create:function(){
+            this.showModal=true;
             this.field.index=-1;
             this.field.name='';
-            this.field.type='String';
-            this.showModal=true;
+            this.field.title='';
+            this.field.length=80
+            this.field.type=schama_types[0];
         },
         modify:function(index){
             this.field.index=index;
             this.field.name=this.data[index].name;
+            this.field.title=this.data[index].title;
+            this.field.length=this.data[index].length;
             this.field.type=this.data[index].type;
             this.showModal=true;
         },
@@ -147,6 +171,12 @@ export default {
             this.$Modal.info({title:'系统提示',content:message});
         },
         ok:function(){
+            let item={
+                name:this.field.name,
+                title:this.field.title,
+                type:this.field.type,
+                length:this.field.length
+            }
             if(this.field.index==-1)
             {
                 if(this.findItem())
@@ -154,7 +184,7 @@ export default {
                     this.showMessage('字段已存在！');
                     return;
                 }
-                this.data.push({name:this.field.name,type:this.field.type});
+                this.data.push(item);
             }
             else
             {
@@ -166,8 +196,7 @@ export default {
                         return;
                     }
                 }
-                this.data[this.field.index].name=this.field.name;
-                this.data[this.field.index].type=this.field.type;
+                this.data[this.field.index]=item;
             }
         },
         cancel:function(){
@@ -186,14 +215,10 @@ export default {
                 return;
             }
             //save
-            var schama=new Object();           
-            this.data.forEach((value)=>{
-                schama[value.name]=value.type;
-            })
             var model={
                 name:this.name,
                 collname:this.collname,
-                schama:schama
+                schama:this.data
             }
             this.$http.post('http://localhost:3000/model/edit',model)
                 .then((value)=>{
@@ -224,11 +249,7 @@ export default {
                 if(value.data.success)
                 {
                     this.collname=value.data.result.collname;
-                    for(var p in value.data.result.schama)
-                    {
-                        this.data.push({name:p,type:value.data.result.schama[p]})
-                    }
-
+                    this.data.push(...value.data.result.schama)
                 }
                 else
                 {

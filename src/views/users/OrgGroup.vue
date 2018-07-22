@@ -2,7 +2,7 @@
     <div id="root">
         <Row>
             <Col span="10">
-                <el-tree :data="data" node-key="name" :props="defaultProps" @node-click="handleNodeClick" ref="tree"></el-tree>
+                <el-tree :data="data" node-key="name" :props="defaultProps" :render-content="renderContent" @node-click="handleNodeClick" ref="tree"></el-tree>
             </Col>
             <Col span="10">
                 <Form :labelWidth="100">
@@ -37,6 +37,15 @@ export default {
     };
   },
   methods: {
+    renderContent(h,{node,data,store}){
+        return (<span class="custom-tree-node">
+            <span>{node.label}</span>
+            <span style="margin-left:20px;">
+              <el-button size="mini" type="text" on-click={ () => this.append(data) }>Append</el-button>
+              <el-button size="mini" type="text" on-click={ () => this.remove(node, data) }>Delete</el-button>
+            </span>
+          </span>)
+    },
     handleNodeClick(data,node,obj) {
       this.parent=data.name
     },
@@ -50,11 +59,10 @@ export default {
         this.name=''
     },
     getData(){
-        this.$http.get('http://localhost:3000/custom-model/OrgGroup')
+        this.$http.get('custom-model/OrgGroup')
         .then(res=>{
             if(res.data.success){
                 this.data=res.data.result
-                this.$Modal.info({content:JSON.stringify(this.data)})
             }else{
                 this.$Modal.info({title:'获取数据失败',content:res.data.message})
             }
@@ -64,27 +72,45 @@ export default {
     },
     save(){
         //删除全部
-        this.$http.post('http://localhost:3000/custom-model/OrgGroup/del-many',{where:{}})
+        this.$http.post('custom-model/OrgGroup/del-many',{where:{}})
         .then(res=>{
           if(!res.data.success){
             this.$Modal.info({title:'保存数据失败',content:res.data.message})
             return
           }
+        this.$http.post('custom-model/OrgGroup/new',{data:this.data})
+            .then(res=>{
+                if(res.data.success){
+                    this.$Modal.info({title:'系统提示',content:'保存数据成功！'})
+                    this.getData()
+                }else{
+                    this.$Modal.info({title:'获取数据失败',content:res.data.message})
+                }
+            }).catch(error=>{
+                this.$Modal.info({title:'获取数据失败',content:error.message})
+            })
         }).catch(error=>{
           this.$Modal.info({title:'保存数据失败',content:error.message})
           return
         })
-        this.$http.post('http://localhost:3000/custom-model/OrgGroup/new',{data:this.data})
-        .then(res=>{
-            if(res.data.success){
-                this.$Modal.info({title:'系统提示',content:'保存数据成功！'})
-                this.getData()
-            }else{
-                this.$Modal.info({title:'获取数据失败',content:res.data.message})
-            }
-        }).catch(error=>{
-            this.$Modal.info({title:'获取数据失败',content:error.message})
-        })
+        
+    },
+    append(data){
+        setTimeout(() => {
+            this.$prompt('请输入节点名称：','提示',{
+                confirmButtonText:'确定',
+                cancelButtonText:'取消',
+                type:'info'
+            }).then(res=>{
+                let nodename=res.value
+                if(!data.children)
+                    Vue.set(data,'children',[])
+                data.children.push({name:nodename})
+            }).catch(()=>{
+                alert('cancel')
+            })
+        }, 500);
+        
     }
   },
   mounted:function(){
@@ -92,8 +118,14 @@ export default {
   }
 };
 </script>
-<style scoped>
-.button{
-  margin: 5px;
-}
+<style lang="less" scoped>
+  .custom-tree-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+  }
+
 </style>

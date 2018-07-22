@@ -14,12 +14,12 @@
                 <Tabs :animated="false" :capture-focus="true">
                     <TabPane v-for="i in Math.ceil(data_columns.length/countPerPage)" :key="'key'+i" :label="'第 '+i+' 页'">
                         <template v-for="column in data_columns.slice((i-1)*countPerPage,(i-1)*countPerPage+countPerPage)">
-                            <FormItem :label="column.name" :key="column.name">
+                            <FormItem :label="column.title" :key="column.key">
                                 <template v-if="column.type=='Boolean'">
-                                    <Checkbox v-model="obj[column.name]"></Checkbox>
+                                    <Checkbox v-model="obj[column.key]"></Checkbox>
                                 </template>
                                 <template v-else>
-                                    <Input v-model="obj[column.name]"/>
+                                    <Input v-model="obj[column.key]"/>
                                 </template>
                             </FormItem>
 
@@ -44,7 +44,9 @@ export default {
             name:'',
             _id:'',
             obj:new Object(),
-            columns:[{type:'index',title:'#',width:50},{
+            columns:[
+                {type:'index',title:'#',width:50},
+                {
                 title:'操作',
                 width:160,
                 align:'center',
@@ -124,6 +126,7 @@ export default {
                     if(value.data.success){
                         this.$Modal.info({title:'系统提示',content:'删除记录成功！'})
                         this.fetchData()
+                        this.clearData()
                     }
                     else
                         this.$Modal.error({title:'系统提示',content:'删除记录失败！原因：'+value.data.message})
@@ -140,7 +143,7 @@ export default {
             this.action='edit'
             this.showDialog=true
         },
-        createNew:function(){
+        clearData:function(){
             this.data_columns.forEach((item)=>{
                 var def_value=''
 
@@ -162,8 +165,12 @@ export default {
                         break
                 }
 
-                this.obj[item.name]=def_value
+                this.obj[item.key]=def_value
             })
+        },
+        createNew:function(){
+            
+            this.clearData()
             
             this.action='new'
             this.showDialog=true
@@ -206,23 +213,31 @@ export default {
                 .then((val)=>{
                     if(val.data.success){
                         var schama=val.data.result.schama
-                        Object.keys(schama).forEach((item)=>{
+                        schama.forEach((item)=>{
+                            console.log(item)
                             var column=new Object();
-                            column['key']=item
-                            column['title']=item
-                            if(schama[item]=='Boolean'){
+                            column['key']=item.name
+                            column['title']=item.title
+                            column['type']=item.type
+                            column['width']=parseInt(''+item.length)
+                            if(column['width']<80)
+                                column['width']=80
+                            if(item.type=='Boolean'){
                                 column['render']=(h,params)=>{
                                     return h('Checkbox',{
                                         props:{
-                                            value:params.row[item]
+                                            value:params.row[item.name]
                                         }
                                     })
                                 }
                             }
                             this.columns.push(column)
-                            this.data_columns.push({name:item,type:schama[item]})
-                            this.obj[item]=null
+                            this.data_columns.push(column)
+                            this.obj[item.name]=null
                         })
+                        var len=this.columns.length
+                        delete this.columns[len-1].width
+                        //delete this.columns[this.columns.length]['width']
                         this.fetchData()
                     }else{
                         this.$Modal.info({title:'系统提示',content:val.data.message})

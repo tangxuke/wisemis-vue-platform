@@ -1,64 +1,61 @@
 <template>
-    <div class="container-fluid">
-        <!--页头-->
-        <div class="row">
-            <h1>这是页面设计器属性页</h1>
-            <p>id:{{id}}</p>
-        </div>
-        <!--活动区-->
-        <div class="row">
-            <!--可用组件区-->
-            <div class="col-2">
-                这是组件区
-                <div>
-                   <button class="btn btn-primary" id="demo" draggable="true" @dragstart="drag">
-                    这是一个组件
-                   </button>
+    <Tabs value="name1">
+        <TabPane label="页面信息" name="base">
+            <Row>
+                <Col span="10">
+                    <Form :model="page" :labelWidth="100">
+                        <FormItem label="名称">
+                            <Input v-model="page.name" placeholder="页面名称"/>
+                        </FormItem>
+                        <FormItem label="标题">
+                            <Input v-model="page.title" placeholder="页面标题"/>
+                        </FormItem>
+                        <FormItem label="图标">
+                            <Input v-model="page.icon" placeholder="页面图标"/>
+                        </FormItem>
+                        <FormItem label="路径">
+                            <Input v-model="page.path" placeholder="页面路径"/>
+                        </FormItem>
+                    </Form>
+                </Col>
+            </Row>
+        </TabPane>
+        <TabPane label="页面代码" name="code">
+            <Input type="textarea" v-model="code" placeholder="页面代码"/>
+        </TabPane>
+        <TabPane label="预览效果" name="preview">
+            <div class="card">
+                <div class="card-header">
+                    <Icon :type="page.icon" size="20" style="margin-right:10px;"></Icon>
+                    {{page.title}}
+                    <Button type="success" @click="preview">预览</Button>
+                </div>
+                <div class="card-body" v-html="code">
                 </div>
             </div>
-            <!--页面预览区-->
-            <div class="col-8 main" @drop="drop" @dragover="allowDrop" style="height:500px">
-
-            </div>
-            <!--属性区-->
-            <div class="col-2">
-                这是属性区
-            </div>
-        </div>
-    </div>
+        </TabPane>
+    </Tabs>
 </template>
 
 <script>
-
 export default {
-    data:function(){
+
+    data(){
         return {
-            id:''
+            page:{
+                name:'',
+                title:'',
+                icon:'',
+                path:''
+            },
+            code:JSON.stringify({is:'Button',text:'tangxuke'}),
+            els:[]
         }
     },
     methods:{
-        drag:function(event){
-            event.dataTransfer.setData('Text',event.target.innerHTML)
-        },
-        drop:function(event){
-            event.preventDefault()
-            var data=event.dataTransfer.getData('Text')
-            var button=document.createElement('button')
-            button.innerHTML=data
-            button.setAttribute("class","btn btn-primary")
-            button.style.display='block'
-            button.style.width='100%'
-            button.style.marginTop='10px'
-            event.target.appendChild(button)
-        },
-        allowDrop:function(event){
-            event.preventDefault()
+        preview:function(){
+            this.els=JSON.parse(this.code)
         }
     }
-}
+};
 </script>
-
-
-<style>
-
-</style>

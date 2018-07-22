@@ -70,13 +70,13 @@
 .menu .menu-content .menu-item-active{
   border-radius: 4px;
   font-weight: bold;
-  background-color:lightblue;
+  background-color:#f3f9f1;
 }
 
 .menu-item:hover {
   background-color: rgb(222, 226, 233);
   color: rgb(111, 114, 128);
-  border: 1px solid #f0f0f0;
+  border: 1px solid #FFFAF0;
   border-radius: 4px;
 }
 
