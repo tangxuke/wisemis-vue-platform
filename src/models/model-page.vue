@@ -9,11 +9,19 @@
                 </div>
             </template>
         </Table>
+
+        <Page :total="100" 
+        :page-size="nPageSize"
+        style="margin-top:10px;" 
+        size="small" 
+        @on-change="onPageChange">
+        </Page> 
+
         <Modal v-model="showDialog" @on-ok="ok">
             <Form  :label-width="100">
                 <Tabs :animated="false" :capture-focus="true">
-                    <TabPane v-for="i in Math.ceil(data_columns.length/countPerPage)" :key="'key'+i" :label="'第 '+i+' 页'">
-                        <template v-for="column in data_columns.slice((i-1)*countPerPage,(i-1)*countPerPage+countPerPage)">
+                    <TabPane v-for="i in Math.ceil(data_columns.length/nItemCountForPage)" :key="'key'+i" :label="'第 '+i+' 页'">
+                        <template v-for="column in data_columns.slice((i-1)*nItemCountForPage,(i-1)*nItemCountForPage+nItemCountForPage)">
                             <FormItem :label="column.title" :key="column.key">
                                 <template v-if="column.type=='Boolean'">
                                     <Checkbox v-model="obj[column.key]"></Checkbox>
@@ -38,7 +46,8 @@
 export default {
     data(){
         return {
-            countPerPage:10,
+            nPageSize:20,
+            nItemCountForPage:10,
             showDialog:false,
             action:'new',   //new,edit,del
             name:'',
@@ -81,6 +90,9 @@ export default {
         }
     },
     methods:{
+        onPageChange:function(nPage){
+            console.log(nPage)
+        },
         init:function(){
             this.obj=new Object()
             this.columns=[{type:'index',title:'#',width:50},{
