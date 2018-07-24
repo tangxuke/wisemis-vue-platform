@@ -1,5 +1,5 @@
 <template>
-    <Tabs value="name1">
+    <Tabs :value="name1">
         <TabPane label="页面信息" name="base">
             <Row>
                 <Col span="10">
@@ -21,7 +21,7 @@
             </Row>
         </TabPane>
         <TabPane label="页面代码" name="code">
-            <Input type="textarea" v-model="code" placeholder="页面代码"/>
+            <Input type="textarea" v-model="code" rows="20" @on-keyup="onCodeKeyUp" placeholder="页面代码"/>
         </TabPane>
         <TabPane label="预览效果" name="preview">
             <div class="card">
@@ -42,6 +42,7 @@ export default {
 
     data(){
         return {
+            name1:'base',
             page:{
                 name:'',
                 title:'',
@@ -53,6 +54,9 @@ export default {
         }
     },
     methods:{
+        onCodeKeyUp:function(event){
+            console.log(event)
+        },
         preview:function(){
             this.els=JSON.parse(this.code)
         }
